@@ -52,11 +52,20 @@
     border-radius: 10px;
 }
 .striped-inputs .form-group:nth-of-type(even) {
-    background-color: #eee;
+    background-color: #E0E0E0;
 }
 .input-form fieldset legend {
-    margin-bottom: 15px;
+    margin-bottom: 4px;
+    margin-top: 30px;
+}
+.input-form fieldset legend.first-legend {
+    margin-top: 0;
 }
 .input-form .input-div {
     padding-right: 7px;
+}
+.input-form .form-data {
+  text-align: left;
+  padding-left: 12px;
+  padding-bottom: 6px;
 }

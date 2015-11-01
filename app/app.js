@@ -3,8 +3,8 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
+  'firebase',
   'myApp.input',
-  'myApp.version',
   'ui.bootstrap'
 ]).
 config(['$routeProvider', function($routeProvider) {
