@@ -8,5 +8,9 @@ angular.module('myApp', [
   'ui.bootstrap'
 ]).
 config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/input', {
+		templateUrl: 'input/input.html',
+		controller: 'InputController'
+  });
   $routeProvider.otherwise({redirectTo: '/input'});
 }]);
