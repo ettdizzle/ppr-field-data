@@ -1,0 +1,62 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.input-form {
+    max-width: 450px;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (max-width: 767px) {
+    .input-form {
+  max-width: 310px;
+  padding-left: 7px;
+  padding-right: 7px;
+    }
+}
+.input-form input, .input-group {
+    max-width: 300px;
+}
+.input-form .form-group {
+    margin: 0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 10px;
+}
+.striped-inputs .form-group:nth-of-type(even) {
+    background-color: #eee;
+}
+.input-form fieldset legend {
+    margin-bottom: 15px;
+}
+.input-form .input-div {
+    padding-right: 7px;
+}
