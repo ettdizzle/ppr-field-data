@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.input', ['ngRoute'])
-.controller('InputController', ['$scope', '$firebaseObject', function($scope, $firebaseObject) {
+.controller('InputController', ['$scope', '$firebaseObject', '$firebaseArray', function($scope, $firebaseObject, $firebaseArray) {
 	var ref = new Firebase("https://ppr-field-data.firebaseio.com/")
 
 	$scope.expts = ['SOSP', 'DENS']
@@ -33,13 +33,6 @@ angular.module('myApp.input', ['ngRoute'])
 
 	// Get the plant info for the default plant
 	$scope.updatePlantInfo();
-
-	// Default observation info
-	$scope.observation = {
-		height: '',
-		caliper: '',
-		date: new Date().toLocaleDateString('en-US')
-	};
 
 	// helper function to add leading zeros to string number
 	// good for any 3 digit number
@@ -82,5 +75,34 @@ angular.module('myApp.input', ['ngRoute'])
 		$scope.plantInfo.id = dec($scope.plantInfo.id);
 		$scope.updatePlantInfo();
 	};
+
+	// Default observation info
+	var defaultObservation = function() {
+		return {
+			height: '',
+			caliper: '',
+			date: new Date().toLocaleDateString('en-US')
+		};
+	};
+
+	$scope.observation = defaultObservation();
+
+	$scope.saveObservation = function() {
+		var observations = $firebaseArray(ref
+			.child($scope.plantInfo.site)
+			.child($scope.plantInfo.expt)
+			.child('plants')
+			.child($scope.plantInfo.id)
+			.child('observations')
+		);
+
+		// save record to Firebase
+		observations.$add($scope.observation);
+		// Move to next plant
+		$scope.incPlantId();
+		// Reset default observation info
+		$scope.observation = defaultObservation();
+	};
+
 
 }]);
