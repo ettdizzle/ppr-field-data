@@ -4,6 +4,8 @@ angular.module('myApp.input', ['ngRoute'])
 .controller('InputController', ['$scope', '$firebaseObject', function($scope, $firebaseObject) {
 	var ref = new Firebase("https://ppr-field-data.firebaseio.com/")
 
+	$scope.expts = ['SOSP', 'DENS']
+
 	// Default plant info
 	$scope.plantInfo = {
 		site: 'Haddington',
