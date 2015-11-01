@@ -1,0 +1,19 @@
+{
+	"Haddington": {
+		"SOSP": {
+			"plants": {
+				"001": {
+					"plantInfo": {
+						"species": "Cornus florida"
+					}
+				},
+				"002": {
+					"plantInfo": {
+						"species": "Cladastrus lutea"
+					}
+				}
+			}
+		},
+		"DENS": {}
+	}
+}
