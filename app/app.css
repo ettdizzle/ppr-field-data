@@ -70,3 +70,6 @@
   padding-bottom: 6px;
   min-height: 33px;
 }
+.input-group-btn button:focus {
+  outline: 0;
+}

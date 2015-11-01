@@ -38,4 +38,47 @@ angular.module('myApp.input', ['ngRoute'])
 		caliper: '',
 		date: new Date().toLocaleDateString('en-US')
 	};
+
+	// helper function to add leading zeros to string number
+	// good for any 3 digit number
+	// e.g. '1' --> '001'
+	var leadZero = function(strNum) {
+		if (strNum.length === 1) {
+			return "00" + strNum;
+		} else if (strNum.length === 2) {
+			return "0" + strNum;
+		} else {
+			return strNum;
+		}
+	};
+
+	// helper function to increment string
+	// e.g. '001' --> '002'
+	var inc = function(strNum) {
+		var intNum = parseInt(strNum, 10) + 1;
+		return leadZero(intNum.toString());
+	};
+
+	// helper function to decrement string
+	// e.g. '004' --> '003'
+	var dec = function(strNum) {
+		var intNum = parseInt(strNum, 10) - 1;
+		
+		if (intNum > 0) {
+			return leadZero(intNum.toString());
+		} else {
+			return '001';
+		}
+	};
+
+	$scope.incPlantId = function() {
+		$scope.plantInfo.id = inc($scope.plantInfo.id);
+		$scope.updatePlantInfo();
+	};
+
+	$scope.decPlantId = function() {
+		$scope.plantInfo.id = dec($scope.plantInfo.id);
+		$scope.updatePlantInfo();
+	};
+
 }]);
