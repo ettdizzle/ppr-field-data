@@ -81,6 +81,8 @@ angular.module('myApp.input', ['ngRoute'])
 		return {
 			height: '',
 			caliper: '',
+			spreadX: '',
+			spreadY: '',
 			date: new Date().toLocaleDateString('en-US')
 		};
 	};
@@ -104,5 +106,8 @@ angular.module('myApp.input', ['ngRoute'])
 		$scope.observation = defaultObservation();
 	};
 
+	$scope.updateSpread = function() {
+		$scope.observation.spreadAvg = ($scope.observation.spreadX + $scope.observation.spreadY) / 2;
+	};
 
 }]);
