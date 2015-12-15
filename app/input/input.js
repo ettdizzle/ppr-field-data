@@ -83,6 +83,7 @@ angular.module('myApp.input', ['ngRoute'])
 			caliper: '',
 			spreadX: '',
 			spreadY: '',
+			spreadAvg: '',
 			date: new Date().toLocaleDateString('en-US')
 		};
 	};
@@ -102,8 +103,12 @@ angular.module('myApp.input', ['ngRoute'])
 		observations.$add($scope.observation);
 		// Move to next plant
 		$scope.incPlantId();
+		// Temporerily save observer name
+		var observer = $scope.observation.observer;
 		// Reset default observation info
 		$scope.observation = defaultObservation();
+		// Restore observer name
+		$scope.observation.observer = observer;
 	};
 
 	$scope.updateSpread = function() {
