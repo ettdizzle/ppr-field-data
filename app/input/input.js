@@ -4,7 +4,9 @@ angular.module('myApp.input', ['ngRoute'])
 .controller('InputController', ['$scope', '$firebaseObject', '$firebaseArray', function($scope, $firebaseObject, $firebaseArray) {
 	var ref = new Firebase("https://ppr-field-data.firebaseio.com/")
 
-	$scope.expts = ['SOSP', 'DENS']
+	$scope.expts = ['SOSP', 'DENS'];
+	$scope.phenologies = ['Dormant', 'Bud break', 'Leaf out >1/4 inch',
+						  'In flower', 'Fruit set'];
 
 	// Default plant info
 	$scope.plantInfo = {
