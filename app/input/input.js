@@ -5,6 +5,7 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 	var ref = new Firebase("https://ppr-field-data.firebaseio.com/")
 
 	$scope.showCSV = false;
+	$scope.observationProperties = [];
 
 	$scope.expts = ['SOSP', 'DENS'];
 	$scope.phenologies = ['Dormant', 'Bud break', 'Leaf out >1/4 inch',
@@ -136,6 +137,7 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 		allData.$loaded()
 			.then(function() {
 				$scope.allObservations = [];
+				$scope.observationProperties = ['site', 'experiment', 'plantId', 'species', 'date', 'observer', 'dead'];
 
 				var experiments = excludeMetaData(Object.keys(allData));
 
@@ -150,10 +152,13 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 						for (var observation in observations) {
 							// make copy of observation object
 							var observationCopy = angular.copy(observations[observation]);
+							// add any unique properties to the list
+							$scope.observationProperties = _.union($scope.observationProperties, Object.keys(observationCopy));
 							// add in relevant details
 							observationCopy.site = $scope.plantInfo.site;
 							observationCopy.experiment = experiment;
 							observationCopy.plantId = plant;
+							observationCopy.species = plants[plant]['plantInfo']['species'];
 							
 							$scope.allObservations.push(observationCopy);
 						}
