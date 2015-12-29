@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('myApp.input', ['ngRoute'])
+angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 .controller('InputController', ['$scope', '$firebaseObject', '$firebaseArray', function($scope, $firebaseObject, $firebaseArray) {
 	var ref = new Firebase("https://ppr-field-data.firebaseio.com/")
+
+	$scope.showCSV = false;
 
 	$scope.expts = ['SOSP', 'DENS'];
 	$scope.phenologies = ['Dormant', 'Bud break', 'Leaf out >1/4 inch',
@@ -117,7 +119,7 @@ angular.module('myApp.input', ['ngRoute'])
 		$scope.observation.spreadAvg = ($scope.observation.spreadX + $scope.observation.spreadY) / 2;
 	};
 
-	$scope.exportCSV = function() {
+	$scope.prepareCSV = function() {
 		// Get all data from selected site
 		var allData = $firebaseObject(ref
 			.child($scope.plantInfo.site)
@@ -131,34 +133,35 @@ angular.module('myApp.input', ['ngRoute'])
 			return arr.filter(isNotMetaData);
 		}
 
-		allData.$loaded().then(function() {
-			var allObservations = [];
+		allData.$loaded()
+			.then(function() {
+				$scope.allObservations = [];
 
-			var experiments = excludeMetaData(Object.keys(allData));
+				var experiments = excludeMetaData(Object.keys(allData));
 
-			// iterate through experiments
-			experiments.map(function(experiment) {
-				// iterate through all plants
-				var plants = allData[experiment]['plants'];
-				for (var plant in plants) {
-					//console.log(plants[plant]);
-					// iterate through observations
-					var observations = plants[plant]['observations'];
-					for (var observation in observations) {
-						// make copy of observation object
-						var observationCopy = angular.copy(observations[observation]);
-						// add in relevant details
-						observationCopy.site = $scope.plantInfo.site;
-						observationCopy.experiment = experiment;
-						observationCopy.plantId = plant;
-						
-						allObservations.push(observationCopy);
+				// iterate through experiments
+				experiments.map(function(experiment) {
+					// iterate through all plants
+					var plants = allData[experiment]['plants'];
+					for (var plant in plants) {
+						//console.log(plants[plant]);
+						// iterate through observations
+						var observations = plants[plant]['observations'];
+						for (var observation in observations) {
+							// make copy of observation object
+							var observationCopy = angular.copy(observations[observation]);
+							// add in relevant details
+							observationCopy.site = $scope.plantInfo.site;
+							observationCopy.experiment = experiment;
+							observationCopy.plantId = plant;
+							
+							$scope.allObservations.push(observationCopy);
+						}
 					}
-				}
-			});
-
-			console.log(allObservations);
-
+				});
+			})
+		.then(function() {
+			$scope.showCSV = true;
 		});
 	};
 

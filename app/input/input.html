@@ -130,4 +130,5 @@
     </div>
   </div>
 </form>
-<a ng-click="exportCSV()">Download All Data</a>
+<a ng-click="prepareCSV()" ng-hide="showCSV">Export all data</a>
+<a ng-csv="allObservations" ng-show="showCSV">Download {{plantInfo.site + '.csv'}}</a>
