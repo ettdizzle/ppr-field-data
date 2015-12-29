@@ -117,4 +117,49 @@ angular.module('myApp.input', ['ngRoute'])
 		$scope.observation.spreadAvg = ($scope.observation.spreadX + $scope.observation.spreadY) / 2;
 	};
 
+	$scope.exportCSV = function() {
+		// Get all data from selected site
+		var allData = $firebaseObject(ref
+			.child($scope.plantInfo.site)
+			);
+
+		var isNotMetaData = function(str) {
+			return str != "$$conf" && str != "$id" && str != "$priority";
+		};
+
+		var excludeMetaData = function(arr) {
+			return arr.filter(isNotMetaData);
+		}
+
+		allData.$loaded().then(function() {
+			var allObservations = [];
+
+			var experiments = excludeMetaData(Object.keys(allData));
+
+			// iterate through experiments
+			experiments.map(function(experiment) {
+				// iterate through all plants
+				var plants = allData[experiment]['plants'];
+				for (var plant in plants) {
+					//console.log(plants[plant]);
+					// iterate through observations
+					var observations = plants[plant]['observations'];
+					for (var observation in observations) {
+						// make copy of observation object
+						var observationCopy = angular.copy(observations[observation]);
+						// add in relevant details
+						observationCopy.site = $scope.plantInfo.site;
+						observationCopy.experiment = experiment;
+						observationCopy.plantId = plant;
+						
+						allObservations.push(observationCopy);
+					}
+				}
+			});
+
+			console.log(allObservations);
+
+		});
+	};
+
 }]);
