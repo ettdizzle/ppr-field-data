@@ -16,7 +16,8 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 		site: 'Haddington',
 		expt: 'SOSP',
 		id: '001',
-		species: ''
+		species: '',
+		plot: ''
 	};
 
 	// Update the plant info when Plant Selector fields change
@@ -137,7 +138,7 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 		allData.$loaded()
 			.then(function() {
 				$scope.allObservations = [];
-				$scope.observationProperties = ['site', 'experiment', 'plantId', 'species', 'date', 'observer', 'dead'];
+				$scope.observationProperties = ['site', 'experiment', 'plot', 'plantId', 'species', 'date', 'observer', 'dead'];
 
 				var experiments = excludeMetaData(Object.keys(allData));
 
@@ -159,6 +160,7 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 							observationCopy.experiment = experiment;
 							observationCopy.plantId = plant;
 							observationCopy.species = plants[plant]['plantInfo']['species'];
+							observationCopy.plot = plants[plant]['plantInfo']['plot'];
 							
 							$scope.allObservations.push(observationCopy);
 						}
