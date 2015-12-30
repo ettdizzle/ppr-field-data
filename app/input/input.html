@@ -136,5 +136,11 @@
     </div>
   </div>
 </form>
+<div class="form-group">
+  <div class="col-sm-offset-5 col-sm-7">
+    <button class="btn btn-link" ng-click="getLastObservation()">Show last observation</button>
+  </div>
+  <pre ng-show="showLastObservation">{{ lastObservation | json }}</pre>
+</div>
 <a ng-click="prepareCSV()" ng-hide="showCSV">Export all data</a>
 <a ng-csv="allObservations" csv-header="observationProperties" csv-column-order="observationProperties" filename="{{plantInfo.site + '.csv'}}" ng-show="showCSV">Download {{plantInfo.site + '.csv'}}</a>

@@ -6,6 +6,8 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 
 	$scope.showCSV = false;
 	$scope.observationProperties = [];
+	$scope.lastObservation = {};
+	$scope.showLastObservation = false;
 
 	$scope.expts = ['SOSP', 'DENS'];
 	$scope.phenologies = ['Dormant', 'Bud break', 'Leaf out >1/4 inch',
@@ -36,6 +38,10 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 			$scope.plantInfo.species = plantRecord.species;
 			$scope.plantInfo.plot = plantRecord.plot;
 		});
+
+		// clear out last observation record
+		$scope.lastObservation = {};
+		$scope.showLastObservation = false;
 	};
 
 	// Get the plant info for the default plant
@@ -116,6 +122,21 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 		$scope.observation = defaultObservation();
 		// Restore observer name
 		$scope.observation.observer = observer;
+	};
+
+	$scope.getLastObservation = function() {
+		var observations = $firebaseArray(ref
+			.child($scope.plantInfo.site)
+			.child($scope.plantInfo.expt)
+			.child('plants')
+			.child($scope.plantInfo.id)
+			.child('observations')
+		);
+
+		observations.$loaded().then(function(obs) {
+			$scope.lastObservation = obs[obs.length - 1];
+			$scope.showLastObservation = true;
+		});
 	};
 
 	$scope.updateSpread = function() {
