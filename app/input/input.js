@@ -34,6 +34,7 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 		// when loaded, get species
 		plantRecord.$loaded().then(function() {
 			$scope.plantInfo.species = plantRecord.species;
+			$scope.plantInfo.plot = plantRecord.plot;
 		});
 	};
 
