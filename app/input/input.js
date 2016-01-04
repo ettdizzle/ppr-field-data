@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
+angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv", 'angular-confirm'])
 .controller('InputController', ['$scope', '$firebaseObject', '$firebaseArray', function($scope, $firebaseObject, $firebaseArray) {
 	var ref = new Firebase("https://ppr-field-data.firebaseio.com/")
 
@@ -136,6 +136,24 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv"])
 		observations.$loaded().then(function(obs) {
 			$scope.lastObservation = obs[obs.length - 1];
 			$scope.showLastObservation = true;
+		});
+	};
+
+	$scope.deleteLastObservation = function() {
+		var observations = $firebaseArray(ref
+			.child($scope.plantInfo.site)
+			.child($scope.plantInfo.expt)
+			.child('plants')
+			.child($scope.plantInfo.id)
+			.child('observations')
+		);
+
+		observations.$loaded().then(function(obs) {
+			var lastObservation = obs[obs.length - 1];
+			observations.$remove(lastObservation)
+				.then(function(x) {
+					$scope.lastObservation = 'Observation Deleted';
+				});
 		});
 	};
 

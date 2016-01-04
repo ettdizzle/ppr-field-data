@@ -139,6 +139,7 @@
 <div class="form-group">
   <div class="col-sm-offset-5 col-sm-7">
     <button class="btn btn-link" ng-click="getLastObservation()">Show last observation</button>
+    <button ng-show="showLastObservation" class="btn btn-danger" ng-click="deleteLastObservation()" confirm="Are you sure?" confirm-settings="{size: 'sm'}">Delete Last Observation</button>
   </div>
   <pre ng-show="showLastObservation">{{ lastObservation | json }}</pre>
 </div>
