@@ -201,7 +201,11 @@ angular.module('myApp.input', ['ngRoute', "ngSanitize", "ngCsv", 'angular-confir
 							observationCopy.plantId = plant;
 							observationCopy.species = plants[plant]['plantInfo']['species'];
 							observationCopy.plot = plants[plant]['plantInfo']['plot'];
-							
+							// remove dead == 'FALSE' entries
+							if (observationCopy.dead === false) {
+								observationCopy.dead = '';
+							}
+
 							$scope.allObservations.push(observationCopy);
 						}
 					}
